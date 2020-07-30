@@ -97,6 +97,7 @@ checkbox.addEventListener("change", function() {
   } else if (checkbox.checked === true) {
     myLibrary[+containerId].own = true
   }
+  console.log(myLibrary)
 });
 
 const label = document.createElement("label"); 
@@ -119,10 +120,9 @@ removeButton.addEventListener("click", function(event){
     myLibrary.splice(+containerId, 1);
     // firebase.database().splice(+containerId, 1);
     bookContainer.remove();
+    console.log(myLibrary)
 })
 
-console.log(bookContainer);
-console.log(newVolume);
 libraryContainer.insertAdjacentElement('afterbegin',bookContainer);
 };
 

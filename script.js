@@ -154,15 +154,6 @@ function getRandomColor() {
 // LAST TASKS:
 // upload to firebase, why is title last in firebase?
 
-// function readStatus() {
-//   const boxChecked = document.getElementById("read").checked;
-//   console.log(boxChecked)
-//   if (boxChecked == true) {x = "read"}
-//   else {x = "unread"}
-//   // if box checked, display this to the DOM
-//   return(x)
-// }
-
 // Get the modal
 var modal = document.getElementById("myModal");
 

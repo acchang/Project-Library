@@ -1,13 +1,21 @@
 let myLibrary = [];
 // start by letting myLibrary take all values from firebase and render them
 
-const test = new Book("L'Etranger", "Albert", "Camus", "1942", "Me", true);
+const test = new Book("L'Etranger", "Albert", "Camus", "1942", "Me", false);
 firebase.database().ref('/Book').push(test);
 myLibrary.push(test);
-document.getElementById("own").checked = true;
+document.getElementById("own").checked = false;
 render(test);
 // can I render from the object in firebase?
 document.getElementById("own").checked = false;
+
+const test2 = new Book("White Teeth", "Zadie", "Smith", "2000", "Andrew", true);
+firebase.database().ref('/Book').push(test);
+myLibrary.push(test2);
+document.getElementById("own").checked = true;
+render(test2);
+document.getElementById("own").checked = false;
+
 
 const submitButton = document.querySelector(".submitButton")
 submitButton.addEventListener("click", e => {

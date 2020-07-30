@@ -1,4 +1,13 @@
 let myLibrary = [];
+// start by letting myLibrary take all values from firebase and render them
+
+const test = new Book("L'Etranger", "Albert", "Camus", "1942", "Me", true);
+firebase.database().ref('/Book').push(test);
+myLibrary.push(test);
+document.getElementById("own").checked = true;
+render(test);
+// can I render from the object in firebase?
+document.getElementById("own").checked = false;
 
 const submitButton = document.querySelector(".submitButton")
 submitButton.addEventListener("click", e => {
@@ -6,13 +15,13 @@ submitButton.addEventListener("click", e => {
   addBookToLibrary();
   })
 
-function Book(title, fname, lname, pubDate, pages, read) {
+function Book(title, fname, lname, pubDate, contrib, own) {
   this.title = title;
   this.fname = fname;
   this.lname = lname;
   this.pubDate = pubDate;
-  this.pages = pages;
-  this.read = read;
+  this.contrib = contrib;
+  this.own = own;
 };
 
 function addBookToLibrary() {
@@ -20,9 +29,9 @@ function addBookToLibrary() {
   let fname = document.querySelector("#fname").value;
   let lname = document.querySelector("#lname").value;
   let pubDate = document.querySelector("#pubDate").value;
-  let pages = document.querySelector("#pages").value;
-  let read = document.querySelector("#read").checked;
-  var addBook = new Book(title, fname, lname, pubDate, pages, read);
+  let contrib = document.querySelector("#contrib").value;
+  let own = document.querySelector("#own").checked;
+  var addBook = new Book(title, fname, lname, pubDate, contrib, own);
   // I could just put document.querySelector values into var addBook but this is clearer
   firebase.database().ref('/Book').push(addBook)
   myLibrary.push(addBook);
@@ -31,58 +40,67 @@ function addBookToLibrary() {
   document.querySelector("#fname").value = "";
   document.querySelector("#lname").value = "";
   document.querySelector("#pubDate").value = "";
-  document.querySelector("#pages").value = "";
-  document.querySelector("#read").checked = false;
+  document.querySelector("#contrib").value = "";
+  document.querySelector("#own").checked = false;
   // I can also shorten this with form.reset()
   // https://discord.com/channels/505093832157691914/690590001486102589/736653879684628491
 };
 
+
+// xxxxxxx//
+
 function render() {
   // this adds in the first batch of info to the card
+  const bookContainer = document.createElement("div");
+  bookContainer.classList.add("book-container");
+
   const newVolume = document.createElement("div");
   newVolume.classList.add("volume");
-  newVolume.setAttribute('id', myLibrary.length - 1 + "");
-  newVolume.innerHTML = "<br /><br />"
+  bookContainer.appendChild(newVolume);
+
+  const frontCover = document.createElement("div");
+  newVolume.appendChild(frontCover);
+ 
+  frontCover.style.setProperty("background-color", getRandomColor());
+  frontCover.setAttribute('id', myLibrary.length - 1 + "");
+  frontCover.innerHTML = "<br /><br />"
                         + "<b>" + myLibrary[myLibrary.length-1].title + "</b>" + "<br /><br />" 
                         + myLibrary[myLibrary.length-1].fname + "&nbsp;"
                         + myLibrary[myLibrary.length-1].lname + "<br /><br />"
                         + "Published: " + myLibrary[myLibrary.length-1].pubDate + "<br />"
-                        + "Pages: " + myLibrary[myLibrary.length-1].pages + "<br />";
+                        + "Added by: <br />" + myLibrary[myLibrary.length-1].contrib + "<br />";
 
   // this works off the checkbox, adds it to the rendered volume and interprets value given
 const checkbox = document.createElement('input'); 
 checkbox.type = "checkbox"; 
 checkbox.id = "checkbox"; 
 
-if (document.getElementById("read").checked == true) {checkbox.checked = true}
+if (document.getElementById("own").checked == true) {checkbox.checked = true}
 else {checkbox.checked = false};
 
 checkbox.addEventListener("change", function() {
   numberVolumes();
 // number the array, for each volume, it gets an id number, ie <div id="1">
-  console.log(newVolume.id)
   let volumeId = newVolume.getAttribute('id');
 // take the id number and add a + to make it a number
 // corresponds to its place in the array
   if (checkbox.checked === false) {
-    myLibrary[+volumeId].read = false;
-    console.log(myLibrary)
+    myLibrary[+volumeId].own = false;
   } else if (checkbox.checked === true) {
-    myLibrary[+volumeId].read = true
-    console.log(myLibrary)
+    myLibrary[+volumeId].own = true
   }
 });
 
 const label = document.createElement("label"); 
-label.appendChild(document.createTextNode("Read")); 
-const linebreak = document.createElement("br")
+label.appendChild(document.createTextNode("I own a copy")); 
+const newgraf = document.createElement("p")
 
-newVolume.appendChild(checkbox);
-newVolume.appendChild(label);
-newVolume.appendChild(linebreak);
+frontCover.appendChild(checkbox);
+frontCover.appendChild(label);
+frontCover.appendChild(newgraf);
 
 const removeButton = document.createElement('button')
-newVolume.appendChild(removeButton)
+frontCover.appendChild(removeButton)
 removeButton.setAttribute('id', `${myLibrary.length - 1}`);
 removeButton.classList.add('remove')
 removeButton.textContent = 'Remove';
@@ -91,12 +109,13 @@ removeButton.addEventListener("click", function(event){
     let volumeId = newVolume.getAttribute('id');
     // volumeID of newVolume corresponds to place in the array
     myLibrary.splice(+volumeId, 1);
-    firebase.database().splice(+volumeId, 1);
+    // firebase.database().splice(+volumeId, 1);
     newVolume.remove();
-    console.log(myLibrary)
 })
 
-libraryContainer.insertAdjacentElement('afterbegin',newVolume);
+console.log(bookContainer);
+console.log(newVolume);
+libraryContainer.insertAdjacentElement('afterbegin',bookContainer);
 };
 
 function numberVolumes() {
@@ -112,15 +131,19 @@ function numberVolumes() {
   })
 }
 
+function getRandomColor() {
+  color = "hsl(" + Math.random() * 360 + ", 100%, 20%)";
+  return color;
+}
 
-// Thanks for the help on the remove button:
+
+// Inpiration for the remove button:
 // https://github.com/JuicyMelon/Library
 
 // For checkbox, I used
 // https://www.geeksforgeeks.org/html-dom-input-checkbox-property/
 
 // LAST TASKS:
-// Add a “NEW BOOK” button -- learn how to build a modal window
 // upload to firebase, why is title last in firebase?
 
 // function readStatus() {
@@ -131,3 +154,29 @@ function numberVolumes() {
 //   // if box checked, display this to the DOM
 //   return(x)
 // }
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}

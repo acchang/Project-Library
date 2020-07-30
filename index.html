@@ -11,27 +11,43 @@
 <div id="sidebar">
 <div id="pageName">
     <h1>
-    Add <br>
-    Your Book <br>
-    To The <br>
-    Library <br>
+    What's <br>
+    The Best  <br>
+    Book You <br>
+    Ever Read? <br>
   </h1>
 </div>
-
-
-
-<form>
-  <input name="title" id="title" type="text" placeholder="Title" maxlength="20" ><br>
-  <input name="fname" id="fname" type="text" placeholder="Author first name" maxlength="20" ><br>
-  <input name="lname" id="lname" type="text" placeholder="Author last name" maxlength="20" ><br>
-  <input name="pubDate" id="pubDate" type="number" placeholder="Publication year" maxlength="20"><br>
-  <input name="pages" id="pages" type="number" placeholder="Pages"><br>
-  <label for="read">Read?</label> <input name="read" id="read" type="checkbox"><br>
-  <button class="submitButton">Submit</button>
-</form>
+<button id="myBtn">Add your favorite!</button>
 </div>
 
+
+
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p><form>
+      <input class="input" name="title" id="title" type="text" placeholder="Title" maxlength="20" ><br>
+      <input class="input" name="fname" id="fname" type="text" placeholder="Author first name" maxlength="10" ><br>
+      <input class="input" name="lname" id="lname" type="text" placeholder="Author last name" maxlength="10" ><br>
+      <input class="input" name="pubDate" id="pubDate" type="number" placeholder="Publication year" maxlength=4><br>
+      <input class="input" name="contrib" id="contrib" type="text" placeholder="Submitted by" maxlength="20"><br>
+      <label for="read">Do you own it?</label> <input name="own" id="own" type="checkbox"><br>
+      <button class="submitButton">Submit</button>
+    </form>
+    </p>
+  </div>
+</div>
+
+
 <div id="libraryContainer">
+
+<!--   <div class="book-container" >
+    <div class="volume">
+      <img/>
+    </div>
+  </div>
+-->
+
 </div>
 
 <!-- The core Firebase JS SDK is always required and must be listed first -->

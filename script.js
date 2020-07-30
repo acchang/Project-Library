@@ -10,7 +10,7 @@ render(test);
 document.getElementById("own").checked = false;
 
 const test2 = new Book("White Teeth", "Zadie", "Smith", "2000", "Andrew", true);
-firebase.database().ref('/Book').push(test);
+firebase.database().ref('/Book').push(test2);
 myLibrary.push(test2);
 document.getElementById("own").checked = true;
 render(test2);
@@ -54,8 +54,6 @@ function addBookToLibrary() {
   // https://discord.com/channels/505093832157691914/690590001486102589/736653879684628491
 };
 
-
-// xxxxxxx//
 
 function render() {
   // this adds in the first batch of info to the card
@@ -143,7 +141,6 @@ function getRandomColor() {
   color = "hsl(" + Math.random() * 360 + ", 100%, 20%)";
   return color;
 }
-
 
 // Inpiration for the remove button:
 // https://github.com/JuicyMelon/Library

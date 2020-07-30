@@ -79,15 +79,15 @@ if (document.getElementById("own").checked == true) {checkbox.checked = true}
 else {checkbox.checked = false};
 
 checkbox.addEventListener("change", function() {
-  numberVolumes();
+  numberContainers();
 // number the array, for each volume, it gets an id number, ie <div id="1">
-  let volumeId = newVolume.getAttribute('id');
+  let containerId = bookContainer.getAttribute('id');
 // take the id number and add a + to make it a number
 // corresponds to its place in the array
   if (checkbox.checked === false) {
-    myLibrary[+volumeId].own = false;
+    myLibrary[+containerId].own = false;
   } else if (checkbox.checked === true) {
-    myLibrary[+volumeId].own = true
+    myLibrary[+containerId].own = true
   }
 });
 
@@ -105,12 +105,12 @@ removeButton.setAttribute('id', `${myLibrary.length - 1}`);
 removeButton.classList.add('remove')
 removeButton.textContent = 'Remove';
 removeButton.addEventListener("click", function(event){
-    numberVolumes();
-    let volumeId = newVolume.getAttribute('id');
-    // volumeID of newVolume corresponds to place in the array
-    myLibrary.splice(+volumeId, 1);
-    // firebase.database().splice(+volumeId, 1);
-    newVolume.remove();
+    numberContainers();
+    let containerId = bookContainer.getAttribute('id');
+    // containerId of bookContainer corresponds to place in the array
+    myLibrary.splice(+containerId, 1);
+    // firebase.database().splice(+containerId, 1);
+    bookContainer.remove();
 })
 
 console.log(bookContainer);
@@ -118,10 +118,10 @@ console.log(newVolume);
 libraryContainer.insertAdjacentElement('afterbegin',bookContainer);
 };
 
-function numberVolumes() {
-  let allVolumes = document.querySelectorAll('.volume');
-  let i = allVolumes.length-1;
-  allVolumes.forEach(element => {
+function numberContainers() {
+  let allContainers = document.querySelectorAll('.book-container');
+  let i = allContainers.length-1;
+  allContainers.forEach(element => {
     // review forEach fat arrow function
       element.setAttribute('id', i);
     // each volume gets an id equal to its place in the array

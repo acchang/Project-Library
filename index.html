@@ -3,10 +3,66 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>repl.it</title>
+    <title>Tell me your favorite book!</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <script src="script.js"></script>
-  </body>
+
+<div id="sidebar">
+<div id="pageName">
+    <h1>
+    Add <br>
+    Your Book <br>
+    To The <br>
+    Library <br>
+  </h1>
+</div>
+
+
+
+<form>
+  <input name="title" id="title" type="text" placeholder="Title" maxlength="20" ><br>
+  <input name="fname" id="fname" type="text" placeholder="Author first name" maxlength="20" ><br>
+  <input name="lname" id="lname" type="text" placeholder="Author last name" maxlength="20" ><br>
+  <input name="pubDate" id="pubDate" type="number" placeholder="Publication year" maxlength="20"><br>
+  <input name="pages" id="pages" type="number" placeholder="Pages"><br>
+  <label for="read">Read?</label> <input name="read" id="read" type="checkbox"><br>
+  <button class="submitButton">Submit</button>
+</form>
+</div>
+
+<div id="libraryContainer">
+</div>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-database.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCtr1lU4XKg4rFZgm_4ax5VyoXerz8lmeA",
+    authDomain: "project-library-7e667.firebaseapp.com",
+    databaseURL: "https://project-library-7e667.firebaseio.com",
+    projectId: "project-library-7e667",
+    storageBucket: "project-library-7e667.appspot.com",
+    messagingSenderId: "394842140770",
+    appId: "1:394842140770:web:036e0ef0d406447928a13b",
+    measurementId: "G-NSZNCJ0ZN3"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+
+<script src="script.js"></script>
+
+</body>
 </html>
+
+
+

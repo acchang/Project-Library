@@ -2,7 +2,9 @@ let myLibrary = [];
 // start by letting myLibrary take all values from firebase and render them
 
 const test = new Book("L'Etranger", "Albert", "Camus", "1942", "Me", false);
+var newPostKey = firebase.database().ref().child('Book').push().key;
 firebase.database().ref('/Book').push(test);
+console.log(newPostKey);
 myLibrary.push(test);
 document.getElementById("own").checked = false;
 render(test);
@@ -19,6 +21,7 @@ document.getElementById("own").checked = false;
 
 const submitButton = document.querySelector(".submitButton")
 submitButton.addEventListener("click", e => {
+  // the prevents the field from clearing on submit
   e.preventDefault();
   addBookToLibrary();
   })
@@ -57,6 +60,7 @@ function addBookToLibrary() {
 
 function render() {
   // this adds in the first batch of info to the card
+
   const bookContainer = document.createElement("div");
   bookContainer.classList.add("book-container");
 
@@ -75,7 +79,7 @@ function render() {
                         + myLibrary[myLibrary.length-1].lname + "<br /><br />"
                         + "Published: " + myLibrary[myLibrary.length-1].pubDate + "<br />"
                         + "Added by: <br />" + myLibrary[myLibrary.length-1].contrib + "<br />";
-
+                        
   // this works off the checkbox, adds it to the rendered volume and interprets value given
 const checkbox = document.createElement('input'); 
 checkbox.type = "checkbox"; 
@@ -99,7 +103,7 @@ checkbox.addEventListener("change", function() {
 });
 
 const label = document.createElement("label"); 
-label.appendChild(document.createTextNode("I own a copy")); 
+label.appendChild(document.createTextNode(" I own a copy")); 
 const newgraf = document.createElement("p")
 
 frontCover.appendChild(checkbox);
@@ -128,7 +132,6 @@ function numberContainers() {
   let allContainers = document.querySelectorAll('.book-container');
   let i = allContainers.length-1;
   allContainers.forEach(element => {
-    // review forEach fat arrow function
       element.setAttribute('id', i);
     // each volume gets an id equal to its place in the array
     // starting with the latest addition and giving id number backwards
@@ -142,6 +145,10 @@ function getRandomColor() {
   return color;
 }
 
+
+
+
+
 // Inpiration for the remove button:
 // https://github.com/JuicyMelon/Library
 
@@ -149,7 +156,9 @@ function getRandomColor() {
 // https://www.geeksforgeeks.org/html-dom-input-checkbox-property/
 
 // LAST TASKS:
-// upload to firebase, why is title last in firebase?
+// upload to firebase - locate, update -- checkbox and remove
+// start with rendering previous entries.
+// why is title last in firebase?
 
 // Get the modal
 var modal = document.getElementById("myModal");
